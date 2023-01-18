@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.rciam.keycloak</groupId>
-    <artifactId>keycloak-theme-vanilla</artifactId>
+    <artifactId>keycloak-theme-kramerius</artifactId>
     <version>4.1.2</version>
     <packaging>jar</packaging>
 

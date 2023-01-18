@@ -45,6 +45,7 @@
                     .then(
                         function(success) {
                             if(success.data != null && Array.isArray(success.data.identityProviders)){
+                                console.log("SUCCESS data: ", success.data);
                                 success.data.identityProviders.forEach(function(idp) {
                                     setLoginUrl(idp);
                                     $scope.idps.push(idp);
