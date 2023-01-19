@@ -1,6 +1,6 @@
 {
-  "krameriusLogoIconUrl": ["additional/digitalni_knihovna.png"],
-  "footerIconUrls" : ["additional/logo_mzk.png", "additional/logo_nkp.png"],
+  "projectLogoIconUrl": ["additional/logo_mzk.png"],
+  "footerIconUrls" : ["additional/logo_mzk.png", "additional/logo_nkp.png", "additional/logo_cdk.png"],
   "privacyPolicyUrl" : ["https://dnnt.mzk.cz/vseobecne-podminky"],
   "termsOfUseUrl" : [],
   "supportUrl" : ["mailto:contact@example.com"],
