@@ -169,7 +169,10 @@
 
 
     function applyConfig(config){
-
+        //get redirect_uri
+        var idpLoginFullUrl = '${idpLoginFullUrl?no_esc}';
+        var redirect_uri = new URL(baseUriOrigin+idpLoginFullUrl).searchParams.get('redirect_uri');
+        console.log("REDIRECT URI: ", redirect_uri);
         //set main logo (it's single config entry)
         var projectLogoIconUrl = config['projectLogoIconUrl'][0];
         var fullUrl = projectLogoIconUrl;

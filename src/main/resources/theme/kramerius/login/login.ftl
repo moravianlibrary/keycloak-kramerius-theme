@@ -48,6 +48,7 @@
             }
 
             function getIdps() {
+                console.log("Calling getIDPs");
                 var submissionTimestamp = new Date().getTime(); //to let the current values be accessible within the callbacks
                 var searchParams = $scope.fetchParams; //to let the current values be accessible within the callbacks
                 $scope.latestSearch = { submissionTimestamp: submissionTimestamp, searchParams: searchParams };
@@ -79,6 +80,7 @@
             }
 
             function getPromotedIdps() {
+                console.log("Calling getPromotedIdps()");
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-providers-promoted' })
                     .then(
                         function(success) {
@@ -92,9 +94,18 @@
                     );
             }
 
+            function getIdpsImages() {
+                console.log("Calling getIdpsImages(), idps:", $scope.idps);
+                $scope.idps.forEach(function(idp) {
+                    console.log(idp);
+                });
+            }
+            
             getIdps();
 
             getPromotedIdps();
+
+            getIdpsImages();
 
 
             $scope.scrollCallback = function ($event, $direct) {
