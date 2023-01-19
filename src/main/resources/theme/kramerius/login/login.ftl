@@ -42,9 +42,22 @@
             $scope.reachedEndPage = false;
             $scope.latestSearch = {};  //for sync purposes
             $scope.isSearching = false;
+            $http({method: 'GET', url: 'https://metadata.eduid.cz/entities/eduid+idp' })
+            .then(
+                function(success) {
+                    $scope.eduid_xml = success.data;
+                },
+                function(error){
+                    console.log("Error extracting XML from eduid metadata");
+                }
+            );
 
             function setLoginUrl(idp){
                 idp.loginUrl = baseUriOrigin + idpLoginFullUrl.replace("/_/", "/"+idp.alias+"/");
+            }
+
+            function setLogo(idp) {
+                idp.logo = idp.alias + ".png";
             }
 
             function getIdps() {
@@ -64,6 +77,7 @@
                             if(success.data != null && Array.isArray(success.data.identityProviders)){
                                 success.data.identityProviders.forEach(function(idp) {
                                     setLoginUrl(idp);
+                                    setLogo(idp);
                                     $scope.idps.push(idp);
                                 });
                                 $scope.hiddenIdps = success.data.hiddenIdps;
@@ -93,19 +107,10 @@
                         }
                     );
             }
-
-            function getIdpsImages() {
-                console.log("Calling getIdpsImages(), idps:", $scope.idps);
-                $scope.idps.forEach(function(idp) {
-                    console.log(idp);
-                });
-            }
             
             getIdps();
 
             getPromotedIdps();
-
-            getIdpsImages();
 
 
             $scope.scrollCallback = function ($event, $direct) {
@@ -134,6 +139,7 @@
                     $scope.reachedEndPage = false;
                     $scope.latestSearch = { timestamp: new Date().getTime(), keyword: newValue };
                     getIdps();
+                    console.log($scope.idps);
                   }
                 }
               );
