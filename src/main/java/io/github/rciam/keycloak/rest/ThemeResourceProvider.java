@@ -66,6 +66,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.ByteBuffer;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
@@ -274,6 +275,27 @@ public class ThemeResourceProvider implements RealmResourceProvider {
         IdentityProviderBean idpBean = new IdentityProviderBean(realm, session, promotedProviders, URI.create(""));
         return idpBean.getProviders()!=null ? idpBean.getProviders() : new ArrayList<>();
 
+    }
+
+    @GET
+    @Path("/identity-providers-logos")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getIndentityProvidersLogos() throws IOException {
+        RealmModel realm = session.getContext().getRealm();
+        String filename = "logo_seznam.json";
+        InputStream stream = getClass().getClassLoader().getResourceAsStream(filename);
+        assert stream != null;
+        byte[] data = new byte[stream.available()];
+        stream.read(data);
+        if(data == null)
+            return Response.status(404).entity("Could not find the resource "+filename).build();
+
+        return Response.ok()
+//                .header("Content-Type", MediaType.IMAGE_JPEG_VALUE)
+                .header("Content-Disposition","attachment; filename=\"" + filename + "\"")
+//                .header("Content-Length", data.length)
+                .entity(data)
+                .build();
     }
 
 
