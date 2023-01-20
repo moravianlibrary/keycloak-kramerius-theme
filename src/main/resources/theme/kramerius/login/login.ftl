@@ -103,6 +103,7 @@
                         function(success) {
                             success.data.forEach(function(idp) {
                                 setLoginUrl(idp);
+                                setLogo(idp);
                             });
                             $scope.promotedIdps = success.data;
                         },
