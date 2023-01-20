@@ -86,9 +86,6 @@ function applyConfig(config){
     if(ribbonText != null && ribbonText.length > 0 && ribbonText[0]) {
         document.body.appendChild(createElementFromHTML("<div class='corner-ribbon'>" + ribbonText + "</div>"));
     }
-
-
-
 }
 
 function createElementFromHTML(htmlString) {

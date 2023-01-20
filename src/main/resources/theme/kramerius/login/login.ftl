@@ -11,7 +11,6 @@
 
 	<script>
 
-
 		var angularLoginPart = angular.module("angularLoginPart", []);
 
         angularLoginPart.directive("onScroll", [function () {
@@ -42,22 +41,25 @@
             $scope.reachedEndPage = false;
             $scope.latestSearch = {};  //for sync purposes
             $scope.isSearching = false;
-            $http({method: 'GET', url: 'https://metadata.eduid.cz/entities/eduid+idp' })
-            .then(
-                function(success) {
-                    $scope.eduid_xml = success.data;
-                },
-                function(error){
-                    console.log("Error extracting XML from eduid metadata");
-                }
-            );
 
             function setLoginUrl(idp){
                 idp.loginUrl = baseUriOrigin + idpLoginFullUrl.replace("/_/", "/"+idp.alias+"/");
             }
 
             function setLogo(idp) {
-                idp.logo = idp.alias + ".png";
+                $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-providers-logos' })
+                    .then(
+                        function(success) {
+                            success.data.forEach(function(record) {
+                                if(record.alias == idp.alias) {
+                                    idp.logo = record.logo;
+                                }
+                            });
+                        },
+                        function(error){
+                            console.log("Error endpoint /identity-providers-logos");
+                        }
+                    );
             }
 
             function getIdps() {
@@ -73,6 +75,7 @@
                             if((searchParams.first == 0) && (submissionTimestamp != $scope.latestSearch.submissionTimestamp)) { //reject the results, there is a newer search
                                 return;
                             }
+                            // get json with alias to logo mapping
                             $scope.isSearching = false;
                             if(success.data != null && Array.isArray(success.data.identityProviders)){
                                 success.data.identityProviders.forEach(function(idp) {
@@ -155,7 +158,7 @@
         ${msg("loginAccountTitle")}
     <#elseif section = "form">
     <div id="kc-form">
-      <div id="kc-form-wrapper">
+      <div id="kc-form-wrapper" style="display:none">
         <#if realm.password>
             <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                 <div class="${properties.kcFormGroupClass!}">
@@ -223,14 +226,13 @@
 
         <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
             <hr/>
-            <h4>${msg("general-identity-providers")}</h4>
             <ul class="${properties.kcFormSocialAccountListClass!} ">
                 <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}">
-                    <div ng-if="idp.iconClasses!=null">
-                        <i class="${properties.kcCommonLogoIdP!}" ng-class="{ '{{idp.iconClasses}}' : idp.iconClasses!=null}" aria-hidden="true"></i>
+                    <div ng-if="idp.logo!=null">
+                        <img src="{{idp.logo}}" style="max-height: 50px;"> 
                         <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
                     </div>
-                    <div ng-if="idp.iconClasses==null">
+                    <div ng-if="idp.logo==null">
                         <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
                     </div>
                 </a>
@@ -242,16 +244,16 @@
             <h4>${msg("identity-provider-login-label")}</h4>
 -->
             <div ng-if="(idps.length + hiddenIdps >= fetchParams.max && fetchParams.keyword==null) || fetchParams.keyword!=null">
-                <input id="kc-providers-filter" type="text" placeholder="Search..." ng-model="fetchParams.keyword">
-                <!-- <i class="fa fa-search" id="kc-providers-filter-button"> </i> -->
+                <input id="kc-providers-filter" type="text" ng-model="fetchParams.keyword">
+                <i class="fa fa-search" id="kc-providers-filter-button"> </i>
             </div>
             <ul id="kc-providers-list" class="${properties.kcFormSocialAccountListClass!} login-pf-list-scrollable" on-scroll="scrollCallback($event, $direct)" >
                <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}">
-                  <div ng-if="idp.iconClasses!=null">
-                     <i class="${properties.kcCommonLogoIdP!}" ng-class="{ '{{idp.iconClasses}}' : idp.iconClasses!=null}" aria-hidden="true"></i>
-                     <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
+                  <div ng-if="idp.logo!=null">
+                    <img src="{{idp.logo}}" style="max-height: 50px;"> 
+                    <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
                   </div>
-                  <div ng-if="idp.iconClasses==null">
+                  <div ng-if="idp.logo==null">
                      <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
                   </div>
                </a>
@@ -270,5 +272,4 @@
         </#if>
     </#if>
     <div>
-
 </@layout.registrationLayout>
