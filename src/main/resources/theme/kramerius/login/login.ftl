@@ -75,7 +75,6 @@
                             if((searchParams.first == 0) && (submissionTimestamp != $scope.latestSearch.submissionTimestamp)) { //reject the results, there is a newer search
                                 return;
                             }
-                            // get json with alias to logo mapping
                             $scope.isSearching = false;
                             if(success.data != null && Array.isArray(success.data.identityProviders)){
                                 success.data.identityProviders.forEach(function(idp) {
@@ -225,16 +224,16 @@
             <img id='spinner' src='${url.resourcesPath}/img/spinner.svg' ng-class="{'hidden' : !isSearching }" style="position: relative; transform: translate(-50%, -50%); width:100px; height:100px;" />
         </div>
 
-        <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
+        <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-promoted-providers" class="${properties.kcFormSocialAccountSectionClass!}">
             <hr/>
             <ul class="${properties.kcFormSocialAccountListClass!} ">
                 <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}">
                     <div ng-if="idp.logo!=null">
-                        <img src="{{idp.logo}}" style="max-height: 50px;"> 
-                        <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
+                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                        <img src="{{idp.logo}}" style="max-height: 50px;float:right;"> 
                     </div>
                     <div ng-if="idp.logo==null">
-                        <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
+                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
                     </div>
                 </a>
             </ul>
@@ -251,11 +250,11 @@
             <ul id="kc-providers-list" class="${properties.kcFormSocialAccountListClass!} login-pf-list-scrollable" on-scroll="scrollCallback($event, $direct)" >
                <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}">
                   <div ng-if="idp.logo!=null">
-                    <img src="{{idp.logo}}" style="max-height: 50px;"> 
-                    <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
+                    <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                    <img src="{{idp.logo}}" style="max-height: 50px;float:right;"> 
                   </div>
                   <div ng-if="idp.logo==null">
-                     <span class="${properties.kcFormSocialAccountNameClass!}">{{idp.displayName}}</span>
+                     <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
                   </div>
                </a>
             </ul>
