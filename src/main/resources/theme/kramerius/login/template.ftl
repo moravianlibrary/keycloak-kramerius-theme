@@ -217,9 +217,9 @@
 
         //set support url (it's single config entry)
         var supportUrl = config['supportUrl'];
-        var formContainerElem = document.querySelector('#footer-form-container');
-        var buttonElem = createElementFromHTML('<button id="formButton" class="pf-c-button pf-m-primary pf-m-block btn-lg" onclick="manageForm()">Přihlásit se pomocí emailu a hesla</button>');
-        formContainerElem.appendChild(buttonElem);
+        //var formContainerElem = document.querySelector('#footer-form-container');
+        //var buttonElem = createElementFromHTML('<button id="formButton" class="pf-c-button pf-m-primary pf-m-block btn-lg" onclick="manageForm()">Přihlásit se pomocí emailu a hesla</button>');
+        //formContainerElem.appendChild(buttonElem);
 
         //set html footer text (it's single config entry)
         var htmlFooterText = config['htmlFooterText'];
@@ -263,7 +263,7 @@
                 child.remove();
         }
     }
-
+    /*
     function manageForm() {
         var title = document.getElementById('kc-page-title');
         var div_form = document.getElementById('kc-form-wrapper');
@@ -276,11 +276,11 @@
             button.innerHTML = "Akademický účet"
         } else {
             div_form.style.display = "none";
-            dic_soc_providers.style.display = "block";
+            dic_soc_providers.style.display =  "block";
             title.style.display = "block";
             button.innerHTML = "Email a heslo";
         }
-    }
+    }*/
 
     document.addEventListener("DOMContentLoaded", function(event) {
       drawFooterInPlace();

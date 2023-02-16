@@ -158,6 +158,8 @@
         ${msg("loginAccountTitle")}
     <#elseif section = "form">
     <div id="kc-form">
+
+<#--
       <div id="kc-form-wrapper" style="display:none">
         <#if realm.password>
             <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
@@ -217,7 +219,7 @@
         </#if>
       </div>
 
-
+-->
       <div ng-app="angularLoginPart" ng-controller="idpListing">
 
         <div style="height:0px; position: relative; top: 50%; left: 50%;">
