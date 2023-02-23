@@ -3,6 +3,10 @@
         {
             "name" : "kramerius",
             "types": [ "login", "account" ]
+        },
+        {
+            "name" : "kramerius-admin",
+            "types": [ "login", "account" ]
         }
     ]
 }
