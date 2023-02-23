@@ -249,6 +249,24 @@ public class ThemeResourceProvider implements RealmResourceProvider {
                 new IdpPageResult(new ArrayList<>(), firstResultSize);
     }
 
+    @GET
+    @Path("/identity-provider-by-alias/{alias}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<IdentityProviderBean.IdentityProvider> getIdentityProvider(@PathParam("alias") String alias
+    ) {
+        RealmModel realm = session.getContext().getRealm();
+
+        IdentityProviderModel identityProvider = realm.getIdentityProviderByAlias(alias);
+
+        //Expose through the Bean, because it makes some extra processing. URI is re-composed back in the UI, so we can ignore here
+        //returns empty list if all idps are filtered out, and not null. This is important for the UI
+        List<IdentityProviderModel> identityProviders = new ArrayList<>( );
+        identityProviders.add(identityProvider);
+        //Expose through the Bean, because it makes some extra processing. URI is re-composed back in the UI, so we can ignore here
+        IdentityProviderBean idpBean = new IdentityProviderBean(realm, session, identityProviders, URI.create(""));
+        return idpBean.getProviders()!=null ? idpBean.getProviders() : new ArrayList<>();
+    }
+
     private String toLowerCaseWithoutAccents(String text){
         if ( text ==null )
                 return "";

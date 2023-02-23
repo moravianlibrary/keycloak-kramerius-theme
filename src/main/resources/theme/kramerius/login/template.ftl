@@ -169,11 +169,8 @@
 
 
     function applyConfig(config){
-        //get redirect_uri
-        var idpLoginFullUrl = '${idpLoginFullUrl?no_esc}';
-        var redirect_uri = new URL(baseUriOrigin+idpLoginFullUrl).searchParams.get('redirect_uri');
-        console.log("REDIRECT URI: ", redirect_uri);
         //set main logo (it's single config entry)
+        /*
         var projectLogoIconUrl = config['projectLogoIconUrl'][0];
         var fullUrl = projectLogoIconUrl;
         if(!projectLogoIconUrl.trim().startsWith('http')){ //it's local path
@@ -182,20 +179,6 @@
         var image = createElementFromHTML("<img src='" + fullUrl + "' alt='" + realm + "' style='max-height:100px; width:auto;'>")
         var logoParentDiv = document.querySelector('#kc-header-wrapper');
         logoParentDiv.appendChild(image);
-
-        //set footer icons/logos urls (multiple config entries)
-        var iconUrls = config['footerIconUrls'];
-        var logosContainerElem = document.querySelector('#footer-logos-container');
-        if(iconUrls != null && iconUrls.length > 0){
-            for (let i = 0; i < iconUrls.length; i++) {
-                var iconUrl = iconUrls[i];
-                if(iconUrl != null && iconUrl.length > 0){
-                    var fullUrl = baseUriOrigin + resourcesPath + "/" + iconUrl;
-                    var logoUrlElem = createElementFromHTML("<img src='" + fullUrl + "' style='max-height:50px; margin: auto;' class='horizontal-padding-10'></img>");
-                    logosContainerElem.appendChild(logoUrlElem);
-                }
-            }
-        }
 
         //set privacy policy url (it's single config entry)
         var privacyPolicyUrl = config['privacyPolicyUrl'];
@@ -233,9 +216,20 @@
         if(ribbonText != null && ribbonText.length > 0 && ribbonText[0]) {
             document.body.appendChild(createElementFromHTML("<div class='corner-ribbon'>" + ribbonText + "</div>"));
         }
-
-
-
+        */
+        //set footer icons/logos urls (multiple config entries)
+        var iconUrls = config['footerIconUrls'];
+        var logosContainerElem = document.querySelector('#footer-logos-container');
+        if(iconUrls != null && iconUrls.length > 0){
+            for (let i = 0; i < iconUrls.length; i++) {
+                var iconUrl = iconUrls[i];
+                if(iconUrl != null && iconUrl.length > 0){
+                    var fullUrl = baseUriOrigin + resourcesPath + "/" + iconUrl;
+                    var logoUrlElem = createElementFromHTML("<img src='" + fullUrl + "' style='max-height:50px; margin: auto;' class='horizontal-padding-10'></img>");
+                    logosContainerElem.appendChild(logoUrlElem);
+                }
+            }
+        }
     }
 
     function createElementFromHTML(htmlString) {

@@ -28,7 +28,6 @@
             };
         }]);
 
-
 		angularLoginPart.controller("idpListing", function($scope, $http) {
 
 
@@ -63,7 +62,6 @@
             }
 
             function getIdps() {
-                console.log("Calling getIDPs");
                 var submissionTimestamp = new Date().getTime(); //to let the current values be accessible within the callbacks
                 var searchParams = $scope.fetchParams; //to let the current values be accessible within the callbacks
                 $scope.latestSearch = { submissionTimestamp: submissionTimestamp, searchParams: searchParams };
@@ -88,6 +86,7 @@
                                 $scope.reachedEndPage = true;
                             }
                             $scope.totalIdpsAskedFor += $scope.fetchParams.max;
+                            console.log($scope.idps);
                         },
                         function(error){
                             $scope.isSearching = false;
@@ -96,7 +95,6 @@
             }
 
             function getPromotedIdps() {
-                console.log("Calling getPromotedIdps()");
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-providers-promoted' })
                     .then(
                         function(success) {
@@ -105,6 +103,26 @@
                                 setLogo(idp);
                             });
                             $scope.promotedIdps = success.data;
+                            if(window.localStorage.getItem('savedIdps') != null) {
+                                getSavedIdp(window.localStorage.getItem('savedIdps'));
+                            }
+                        },
+                        function(error){
+                        }
+                    );
+            }
+
+            function getSavedIdp(alias) {
+                $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-provider-by-alias/' + alias})
+                    .then(
+                        function(success) {
+                            success.data.forEach(function(idp) {
+                                setLoginUrl(idp);
+                                setLogo(idp);
+                            });
+                            console.log($scope.promotedIdps);
+                            $scope.promotedIdps.push(success.data[0]);
+                            console.log($scope.promotedIdps);
                         },
                         function(error){
                         }
@@ -115,6 +133,7 @@
 
             getPromotedIdps();
 
+            console.log("Last saved IDPs: ", window.localStorage.getItem('savedIdps'));
 
             $scope.scrollCallback = function ($event, $direct) {
                 if($scope.reachedEndPage==true || $event.target.lastElementChild==null)
@@ -131,6 +150,14 @@
 
             };
 
+            $scope.saveIdp = function ($event, $direct) {
+                console.log($event);
+                console.log($direct);
+                console.log($event.target.id);
+                idpId = $event.target.id.replace('social-', '');
+                window.localStorage.setItem('savedIdps', idpId);
+            }
+
             $scope.$watch(
                 "fetchParams.keyword",
                 function handleChange(newValue, oldValue) {
@@ -145,11 +172,10 @@
                     console.log($scope.idps);
                   }
                 }
-              );
+            );
 
 
         });
-
 
     </script>
 
@@ -168,7 +194,7 @@
         <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-promoted-providers" class="${properties.kcFormSocialAccountSectionClass!}">
             <hr/>
             <ul class="${properties.kcFormSocialAccountListClass!} ">
-                <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}">
+                <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
                     <div ng-if="idp.logo!=null">
                         <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
                         <img src="{{idp.logo}}" style="max-height: 50px;float:right;"> 
@@ -189,7 +215,7 @@
                 <i class="fa fa-search" id="kc-providers-filter-button"> </i>
             </div>
             <ul id="kc-providers-list" class="${properties.kcFormSocialAccountListClass!} login-pf-list-scrollable" on-scroll="scrollCallback($event, $direct)" >
-               <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}">
+               <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
                   <div ng-if="idp.logo!=null">
                     <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
                     <img src="{{idp.logo}}" style="max-height: 50px;float:right;"> 
