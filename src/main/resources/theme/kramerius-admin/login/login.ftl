@@ -54,12 +54,21 @@
                                 if(record.alias == idp.alias) {
                                     idp.logo = record.logo;
                                 }
+                                //this function also sets names to English if required
+                                console.log("LANG:", navigator.language);
+                                console.log(idp);
                             });
                         },
                         function(error){
                             console.log("Error endpoint /identity-providers-logos");
                         }
                     );
+            }
+
+            function setEnglishName(idp) {
+                // TODO: set english name if HTTP header is english
+                // TODO: revise ThemeResouceProvider identity-providers-logos endpoint
+                return;
             }
 
             function getIdps() {
@@ -111,7 +120,7 @@
                     );
             }
             
-            getIdps();
+            //getIdps();
 
             getPromotedIdps();
 

@@ -46,14 +46,16 @@
             }
 
             function setLogo(idp) {
-                $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-providers-logos' })
+                $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-provider-logo/' + idp.alias })
                     .then(
                         function(success) {
+                            console.log(success.data);
+                            /*
                             success.data.forEach(function(record) {
                                 if(record.alias == idp.alias) {
                                     idp.logo = record.logo;
                                 }
-                            });
+                            });*/
                         },
                         function(error){
                             console.log("Error endpoint /identity-providers-logos");
@@ -86,7 +88,6 @@
                                 $scope.reachedEndPage = true;
                             }
                             $scope.totalIdpsAskedFor += $scope.fetchParams.max;
-                            console.log($scope.idps);
                         },
                         function(error){
                             $scope.isSearching = false;
@@ -120,9 +121,8 @@
                                 setLoginUrl(idp);
                                 setLogo(idp);
                             });
-                            console.log($scope.promotedIdps);
+                            // Push last Used IDP by user
                             $scope.promotedIdps.push(success.data[0]);
-                            console.log($scope.promotedIdps);
                         },
                         function(error){
                         }
@@ -132,8 +132,6 @@
             getIdps();
 
             getPromotedIdps();
-
-            console.log("Last saved IDPs: ", window.localStorage.getItem('savedIdps'));
 
             $scope.scrollCallback = function ($event, $direct) {
                 if($scope.reachedEndPage==true || $event.target.lastElementChild==null)

@@ -45,7 +45,10 @@ import org.keycloak.services.resources.admin.AdminAuth;
 import org.keycloak.services.resources.admin.permissions.AdminPermissionEvaluator;
 import org.keycloak.services.resources.admin.permissions.AdminPermissions;
 import org.keycloak.sessions.AuthenticationSessionModel;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.validation.constraints.Null;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
@@ -62,9 +65,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.text.Normalizer;
@@ -296,26 +297,29 @@ public class ThemeResourceProvider implements RealmResourceProvider {
     }
 
     @GET
-    @Path("/identity-providers-logos")
+    @Path("/identity-provider-logo/{alias}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getIndentityProvidersLogos() throws IOException {
-        RealmModel realm = session.getContext().getRealm();
-        String filename = "logo_seznam.json";
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(filename);
-        assert stream != null;
-        byte[] data = new byte[stream.available()];
-        stream.read(data);
+    public Response getIndentityProviderLogo(@PathParam("alias") String alias) throws IOException {
+        Reader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("logo_seznam.json"));
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(reader);
+        byte[] data = null;
+        for(JsonNode node : rootNode) {
+            if(node.get("alias").asText().equals(alias)) {
+                data = objectMapper.writeValueAsBytes(node);
+            }
+        }
+
         if(data == null)
-            return Response.status(404).entity("Could not find the resource "+filename).build();
+            return Response.status(404).entity("Could not find the Identity provider with  ").build();
 
         return Response.ok()
 //                .header("Content-Type", MediaType.IMAGE_JPEG_VALUE)
-                .header("Content-Disposition","attachment; filename=\"" + filename + "\"")
+                .header("Content-Disposition","attachment; filename=logo.json")
 //                .header("Content-Length", data.length)
                 .entity(data)
                 .build();
     }
-
 
     /**
      * <b> This is actually the function LoginFormsUtil.filterIdentityProviders() </b>
