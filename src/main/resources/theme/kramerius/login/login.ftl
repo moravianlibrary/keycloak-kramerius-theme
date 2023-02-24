@@ -49,16 +49,10 @@
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-provider-logo/' + idp.alias })
                     .then(
                         function(success) {
-                            console.log(success.data);
-                            /*
-                            success.data.forEach(function(record) {
-                                if(record.alias == idp.alias) {
-                                    idp.logo = record.logo;
-                                }
-                            });*/
+                            idp.logo = success.data.logo;
                         },
                         function(error){
-                            console.log("Error endpoint /identity-providers-logos");
+                            console.log("Error endpoint /identity-provider-logo");
                         }
                     );
             }
@@ -79,6 +73,7 @@
                             if(success.data != null && Array.isArray(success.data.identityProviders)){
                                 success.data.identityProviders.forEach(function(idp) {
                                     setLoginUrl(idp);
+                                    idp.logo = null;
                                     setLogo(idp);
                                     $scope.idps.push(idp);
                                 });
@@ -101,6 +96,7 @@
                         function(success) {
                             success.data.forEach(function(idp) {
                                 setLoginUrl(idp);
+                                idp.logo = null;
                                 setLogo(idp);
                             });
                             $scope.promotedIdps = success.data;
@@ -117,12 +113,24 @@
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-provider-by-alias/' + alias})
                     .then(
                         function(success) {
+                            console.log("hello");
                             success.data.forEach(function(idp) {
                                 setLoginUrl(idp);
+                                idp.logo = null;
                                 setLogo(idp);
+                                
                             });
                             // Push last Used IDP by user
-                            $scope.promotedIdps.push(success.data[0]);
+                            // Check if last used IDP is already in Promoted Idps (Only MZK in Kramerius)
+                            var duplicate = false; 
+                            $scope.promotedIdps.forEach(function(idp) {
+                                if(idp.alias == alias) {
+                                    duplicate = true;
+                                }
+                            });
+                            if(duplicate == false) {
+                                $scope.promotedIdps.push(success.data[0]);
+                            }
                         },
                         function(error){
                         }
@@ -149,8 +157,6 @@
             };
 
             $scope.saveIdp = function ($event, $direct) {
-                console.log($event);
-                console.log($direct);
                 console.log($event.target.id);
                 idpId = $event.target.id.replace('social-', '');
                 window.localStorage.setItem('savedIdps', idpId);
@@ -167,7 +173,6 @@
                     $scope.reachedEndPage = false;
                     $scope.latestSearch = { timestamp: new Date().getTime(), keyword: newValue };
                     getIdps();
-                    console.log($scope.idps);
                   }
                 }
             );
@@ -185,17 +190,13 @@
 
       <div ng-app="angularLoginPart" ng-controller="idpListing">
 
-        <div style="height:0px; position: relative; top: 50%; left: 50%;">
-            <img id='spinner' src='${url.resourcesPath}/img/spinner.svg' ng-class="{'hidden' : !isSearching }" style="position: relative; transform: translate(-50%, -50%); width:100px; height:100px;" />
-        </div>
-
         <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-promoted-providers" class="${properties.kcFormSocialAccountSectionClass!}">
             <hr/>
             <ul class="${properties.kcFormSocialAccountListClass!} ">
                 <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
                     <div ng-if="idp.logo!=null">
                         <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
-                        <img src="{{idp.logo}}" style="max-height: 50px;float:right;"> 
+                        <img src="{{idp.logo}}" alt="" style="max-height: 50px;float:right;">
                     </div>
                     <div ng-if="idp.logo==null">
                         <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
@@ -204,6 +205,9 @@
             </ul>
         </div>
         <div ng-if="(idps!=null && idps.length>0) || fetchParams.keyword!=null" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
+            <div style="height:0px; margin: auto;">
+                <img id='spinner' src='${url.resourcesPath}/img/spinner.svg' ng-class="{'hidden' : !isSearching }" style="margin: auto; width:100px; height:100px;" />
+            </div>
 <#--
             <hr/>
             <h4>${msg("identity-provider-login-label")}</h4>
@@ -216,7 +220,7 @@
                <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
                   <div ng-if="idp.logo!=null">
                     <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
-                    <img src="{{idp.logo}}" style="max-height: 50px;float:right;"> 
+                    <img src="{{idp.logo}}" alt="" style="max-height: 50px;float:right;">
                   </div>
                   <div ng-if="idp.logo==null">
                      <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
