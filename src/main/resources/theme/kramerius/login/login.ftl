@@ -33,7 +33,7 @@
 
             var sessionParams = new URL(baseUriOrigin+idpLoginFullUrl).searchParams;
 
-            $scope.fetchParams = { 'keyword': null, 'first' : 0, 'max': 20, 'client_id': sessionParams.get('client_id'), 'tab_id': sessionParams.get('tab_id'), 'session_code': sessionParams.get('session_code')};
+            $scope.fetchParams = { 'keyword': null, 'first' : null, 'max': null, 'client_id': sessionParams.get('client_id'), 'tab_id': sessionParams.get('tab_id'), 'session_code': sessionParams.get('session_code')};
             $scope.idps = [];
             $scope.hiddenIdps = 0;
             $scope.totalIdpsAskedFor = 0;
@@ -159,6 +159,7 @@
 
             getPromotedIdps();
 
+            /*
             $scope.scrollCallback = function ($event, $direct) {
                 if($scope.reachedEndPage==true || $event.target.lastElementChild==null)
                     return;
@@ -172,7 +173,7 @@
                     }
                 }
 
-            };
+            };*/
 
             $scope.saveIdp = function ($event, $direct) {
                 console.log($event.target.id);
@@ -245,7 +246,7 @@
                 <img id='spinner' src='${url.resourcesPath}/img/spinner.svg' ng-class="{'hidden' : !isSearching }" style="margin: auto; width:100px; height:100px;" />
             </div>
             <ul id="kc-providers-list" class="${properties.kcFormSocialAccountListClass!} login-pf-list-scrollable" on-scroll="scrollCallback($event, $direct)" >
-               <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
+               <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)" style="min-height:50px;">
                   <div ng-if="idp.logo!=null">
                     <div ng-if="idp.en_name==null">
                         <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
