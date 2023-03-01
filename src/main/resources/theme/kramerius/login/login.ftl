@@ -45,11 +45,29 @@
                 idp.loginUrl = baseUriOrigin + idpLoginFullUrl.replace("/_/", "/"+idp.alias+"/");
             }
 
+            // Function also sets English name
             function setLogo(idp) {
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-provider-logo/' + idp.alias })
                     .then(
                         function(success) {
                             idp.logo = success.data.logo;
+                            // Check locale
+                            // Check kc_locale first
+                            const params = new URLSearchParams(window.location.search);
+                            const kc_locale = params.get('kc_locale');
+                            if(!kc_locale) {
+                                if(window.navigator.language.split('-')[0] == "en") {
+                                    idp.en_name = success.data['en-name'];
+                                } else {
+                                    idp.en_name = null;
+                                }
+                            } else {
+                                if(kc_locale == "en") {
+                                    idp.en_name = success.data['en-name'];
+                                } else {
+                                    idp.en_name = null;
+                                }
+                            }
                         },
                         function(error){
                             console.log("Error endpoint /identity-provider-logo");
@@ -77,6 +95,8 @@
                                     setLogo(idp);
                                     $scope.idps.push(idp);
                                 });
+                                // Sort new IDPs
+                                $scope.idps.sort((a, b) => a.displayName.localeCompare(b.displayName));
                                 $scope.hiddenIdps = success.data.hiddenIdps;
                             }
                             else {
@@ -113,12 +133,10 @@
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-provider-by-alias/' + alias})
                     .then(
                         function(success) {
-                            console.log("hello");
                             success.data.forEach(function(idp) {
                                 setLoginUrl(idp);
                                 idp.logo = null;
-                                setLogo(idp);
-                                
+                                setLogo(idp);  
                             });
                             // Push last Used IDP by user
                             // Check if last used IDP is already in Promoted Idps (Only MZK in Kramerius)
@@ -195,19 +213,26 @@
             <ul class="${properties.kcFormSocialAccountListClass!} ">
                 <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
                     <div ng-if="idp.logo!=null">
-                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                        <div ng-if="idp.en_name==null">
+                            <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                        </div>
+                        <div ng-if="idp.en_name!=null">
+                            <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.en_name}}</span>
+                        </div>
                         <img src="{{idp.logo}}" alt="" style="max-height: 50px;float:right;">
                     </div>
                     <div ng-if="idp.logo==null">
-                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                        <div ng-if="idp.en_name==null">
+                            <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                        </div>
+                        <div ng-if="idp.en_name!=null">
+                            <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.en_name}}</span>
+                        </div>
                     </div>
                 </a>
             </ul>
         </div>
         <div ng-if="(idps!=null && idps.length>0) || fetchParams.keyword!=null" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
-            <div style="height:0px; margin: auto;">
-                <img id='spinner' src='${url.resourcesPath}/img/spinner.svg' ng-class="{'hidden' : !isSearching }" style="margin: auto; width:100px; height:100px;" />
-            </div>
 <#--
             <hr/>
             <h4>${msg("identity-provider-login-label")}</h4>
@@ -216,14 +241,27 @@
                 <input id="kc-providers-filter" type="text" ng-model="fetchParams.keyword">
                 <i class="fa fa-search" id="kc-providers-filter-button"> </i>
             </div>
+            <div style="height:0px; margin: auto;">
+                <img id='spinner' src='${url.resourcesPath}/img/spinner.svg' ng-class="{'hidden' : !isSearching }" style="margin: auto; width:100px; height:100px;" />
+            </div>
             <ul id="kc-providers-list" class="${properties.kcFormSocialAccountListClass!} login-pf-list-scrollable" on-scroll="scrollCallback($event, $direct)" >
                <a ng-repeat="idp in idps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : idps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
                   <div ng-if="idp.logo!=null">
-                    <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                    <div ng-if="idp.en_name==null">
+                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                    </div>
+                    <div ng-if="idp.en_name!=null">
+                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.en_name}}</span>
+                    </div>  
                     <img src="{{idp.logo}}" alt="" style="max-height: 50px;float:right;">
                   </div>
                   <div ng-if="idp.logo==null">
-                     <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                    <div ng-if="idp.en_name==null">
+                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.displayName}}</span>
+                    </div>
+                    <div ng-if="idp.en_name!=null">
+                        <span class="${properties.kcFormSocialAccountNameClass!}" style="float:left">{{idp.en_name}}</span>
+                    </div> 
                   </div>
                </a>
             </ul>

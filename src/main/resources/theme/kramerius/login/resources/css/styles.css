@@ -74,6 +74,7 @@ input[type=text] {
 
 .card-pf {
     border-radius: 10px;
+    min-height: 400px !important;
     max-width: 800px !important;
 }
 
