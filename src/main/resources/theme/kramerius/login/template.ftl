@@ -216,7 +216,7 @@
         if(ribbonText != null && ribbonText.length > 0 && ribbonText[0]) {
             document.body.appendChild(createElementFromHTML("<div class='corner-ribbon'>" + ribbonText + "</div>"));
         }
-        */
+        
         //set footer icons/logos urls (multiple config entries)
         var iconUrls = config['footerIconUrls'];
         var logosContainerElem = document.querySelector('#footer-logos-container');
@@ -229,7 +229,8 @@
                     logosContainerElem.appendChild(logoUrlElem);
                 }
             }
-        }
+        }*/
+        return;
     }
 
     function createElementFromHTML(htmlString) {

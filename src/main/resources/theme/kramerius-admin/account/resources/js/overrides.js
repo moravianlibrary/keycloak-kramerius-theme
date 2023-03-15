@@ -21,7 +21,7 @@ function getConfig() {
 
 
 function applyConfig(config){
-
+    /*
     //set main logo (it's single config entry)
     var projectLogoIconUrl = config['projectLogoIconUrl'][0];
     var fullUrl = projectLogoIconUrl;
@@ -85,7 +85,8 @@ function applyConfig(config){
     var ribbonText = config['ribbonText'];
     if(ribbonText != null && ribbonText.length > 0 && ribbonText[0]) {
         document.body.appendChild(createElementFromHTML("<div class='corner-ribbon'>" + ribbonText + "</div>"));
-    }
+    }*/
+    return;
 }
 
 function createElementFromHTML(htmlString) {
