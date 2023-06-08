@@ -1,0 +1,16 @@
+image: maven:3-openjdk-8
+
+cache:
+  paths:
+    - .m2/repository
+
+stages:
+  - build
+
+build-job:
+  stage: build
+  script:
+    - "mvn --batch-mode --update-snapshots verify"
+  artifacts:
+    paths:
+      - "target/*.jar"
