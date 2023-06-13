@@ -6,6 +6,7 @@ cache:
 
 stages:
   - build
+  - deploy
 
 build-job:
   stage: build
@@ -14,3 +15,38 @@ build-job:
   artifacts:
     paths:
       - "target/*.jar"
+
+deploy-job:
+  stage: deploy
+  variables:
+    GIT_STRATEGY: none # no need to clone
+    SOURCE_BRANCH: $CI_DEFAULT_BRANCH
+    DEPLOY_REPO_BRANCH: main
+    DEPLOY_STRATEGY: manual # should be manual or always
+    DEPLOY_REPOSITORY: gitlab.mzk.cz/k7/keycloak-image
+
+    # provide git config
+    GIT_AUTHOR_DATE: "${CI_COMMIT_TIMESTAMP}"
+    GIT_AUTHOR_NAME: "${GITLAB_USER_NAME} by Gitlab Robot"
+    GIT_AUTHOR_EMAIL: "${GITLAB_USER_EMAIL}"
+    GIT_COMMITTER_NAME: "Gitlab Robot on behalf of ${GITLAB_USER_NAME}"
+    GIT_COMMITTER_EMAIL: "gitlab-ci@${CI_SERVER_HOST}"
+    EMAIL: "gitlab-ci+job-${CI_JOB_ID}@${CI_SERVER_HOST}"
+
+  script:
+    - git clone https://${GITLAB_DEPLOY_TOKEN}:${GITLAB_DEPLOY_TOKEN_PASSWORD}@${DEPLOY_REPOSITORY}.git deployment
+    - cd deployment
+    - git checkout ${DEPLOY_REPO_BRANCH}
+    - cp ../target/*.jar resources
+    - |
+        cat >> ${TMP_DIR}/commit-message <<EOF
+        deploy(${CI_COMMIT_SHORT_SHA}): ${CI_COMMIT_TITLE}
+        * ${CI_COMMIT_REF_NAME}
+        * commit: ${CI_PROJECT_URL}/-/commit/${CI_COMMIT_SHORT_SHA}
+        * CI job: ${CI_JOB_URL}
+        EOF
+    - git add .
+    - git commit --file ${TMP_DIR}/commit-message --allow-empty
+    - git push
+    - DEPLOY_COMMIT_ID=$(git rev-parse HEAD | cut -c1-12)
+    - echo https://${DEPLOY_REPOSITORY}/-/commits/${DEPLOY_COMMIT_ID}
