@@ -169,6 +169,20 @@
 
 
     function applyConfig(config){
+        var queryString = window.location.search;
+        var params = new URLSearchParams(queryString);
+        var redirect_uri = params.get('redirect_uri');
+        var url = new URL(redirect_uri);
+        var uri_hostname = url.hostname
+        var admin_urls = config['krameriusAdminUrls'];
+        for (var i = 0; i < admin_urls.length; i++) {
+            console.log(admin_urls[i] + "?=" + uri_hostname)
+            if (admin_urls[i] == uri_hostname) {
+                var form = document.getElementById("kc-form-login");
+                form.style.display = "block";
+                var idps_list = document.getElementById("kc-social-providers");
+            }
+        }
         //set main logo (it's single config entry)
         /*
         var projectLogoIconUrl = config['projectLogoIconUrl'][0];
@@ -239,8 +253,8 @@
         return div.firstChild;
     }
 
-
-    function drawFooterInPlace(){
+    // Tato funkce kreslí formulář dle hodnoty redirect_uri
+    function drawFormAndFooterInPlace(){
         fetch(baseUriOrigin + resourcesPath + "/elements/footer.html")
             .then((r)=>{r.text().then((d)=>{
                 let element = createElementFromHTML(d);
@@ -278,8 +292,8 @@
     }*/
 
     document.addEventListener("DOMContentLoaded", function(event) {
-      drawFooterInPlace();
-      removeDefaultLogo();
+        drawFormAndFooterInPlace();
+        removeDefaultLogo();
     });
 
   </script>

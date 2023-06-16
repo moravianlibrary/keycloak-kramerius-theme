@@ -1,0 +1,1 @@
+Tato složka vzhledem k nové verzi Krameria už není potřeba, jelikož používá pouze jednoho Keycloak klienta.
