@@ -155,113 +155,14 @@
     var resourcesCommonPath = '${url.resourcesCommonPath}';
     var resourcesPath = '${url.resourcesPath}';
 
-
     if(baseUri.endsWith("/"))
         baseUri = baseUri.substring(0,baseUri.lastIndexOf("/")); //remove the trailing slash
     var baseUriOrigin = new URL(baseUri).origin;
-
-
-    function getConfig() {
-        fetch(baseUri + '/realms/' + realm + '/theme-info/theme-config').then(response => response.json()).then(config => {
-            applyConfig(config);
-        });
-    }
-
-
-    function applyConfig(config){
-        var queryString = window.location.search;
-        var params = new URLSearchParams(queryString);
-        var redirect_uri = params.get('redirect_uri');
-        var url = new URL(redirect_uri);
-        var uri_hostname = url.hostname
-        var admin_urls = config['krameriusAdminUrls'];
-        for (var i = 0; i < admin_urls.length; i++) {
-            console.log(admin_urls[i] + "?=" + uri_hostname)
-            if (admin_urls[i] == uri_hostname) {
-                var form = document.getElementById("kc-form-login");
-                form.style.display = "block";
-                var idps_list = document.getElementById("kc-social-providers");
-            }
-        }
-        //set main logo (it's single config entry)
-        /*
-        var projectLogoIconUrl = config['projectLogoIconUrl'][0];
-        var fullUrl = projectLogoIconUrl;
-        if(!projectLogoIconUrl.trim().startsWith('http')){ //it's local path
-            fullUrl = baseUriOrigin + resourcesPath + "/" + projectLogoIconUrl;
-        }
-        var image = createElementFromHTML("<img src='" + fullUrl + "' alt='" + realm + "' style='max-height:100px; width:auto;'>")
-        var logoParentDiv = document.querySelector('#kc-header-wrapper');
-        logoParentDiv.appendChild(image);
-
-        //set privacy policy url (it's single config entry)
-        var privacyPolicyUrl = config['privacyPolicyUrl'];
-        var linksContainerElem = document.querySelector('#footer-links-container');
-        if(privacyPolicyUrl != null && privacyPolicyUrl.length > 0 && privacyPolicyUrl[0].length > 0){
-            var privacyProlicyElem = createElementFromHTML("<a class='horizontal-padding-10' href='" + privacyPolicyUrl[0] + "'>Privacy</a>");
-            linksContainerElem.appendChild(privacyProlicyElem);
-        }
-
-        //set terms of use policy url (it's single config entry)
-        var termsOfUseUrl = config['termsOfUseUrl'];
-        var linksContainerElem = document.querySelector('#footer-links-container');
-        var defaultTOUUrl = baseUri + "/realms/" + realm + "/theme-info/terms-of-use";
-        var termsOfUseElem = createElementFromHTML("<a class='horizontal-padding-10' href='" + defaultTOUUrl + "'>Terms</a>");
-        if(termsOfUseUrl != null && termsOfUseUrl.length > 0 && termsOfUseUrl[0].length > 0){
-            termsOfUseElem = createElementFromHTML("<a class='horizontal-padding-10' href='" + termsOfUseUrl[0] + "'>Terms</a>");
-        }
-        linksContainerElem.appendChild(termsOfUseElem);
-
-        //set support url (it's single config entry)
-        var supportUrl = config['supportUrl'];
-        //var formContainerElem = document.querySelector('#footer-form-container');
-        //var buttonElem = createElementFromHTML('<button id="formButton" class="pf-c-button pf-m-primary pf-m-block btn-lg" onclick="manageForm()">Přihlásit se pomocí emailu a hesla</button>');
-        //formContainerElem.appendChild(buttonElem);
-
-        //set html footer text (it's single config entry)
-        var htmlFooterText = config['htmlFooterText'];
-        var footerHtmlTextElem = document.querySelector('#footer-html-text');
-        if(htmlFooterText != null && htmlFooterText.length > 0) {
-            footerHtmlTextElem.innerHTML = htmlFooterText[0];
-        }
-
-        //set a red ribbon if the theme has a ribbon text to show
-        var ribbonText = config['ribbonText'];
-        if(ribbonText != null && ribbonText.length > 0 && ribbonText[0]) {
-            document.body.appendChild(createElementFromHTML("<div class='corner-ribbon'>" + ribbonText + "</div>"));
-        }
-        
-        //set footer icons/logos urls (multiple config entries)
-        var iconUrls = config['footerIconUrls'];
-        var logosContainerElem = document.querySelector('#footer-logos-container');
-        if(iconUrls != null && iconUrls.length > 0){
-            for (let i = 0; i < iconUrls.length; i++) {
-                var iconUrl = iconUrls[i];
-                if(iconUrl != null && iconUrl.length > 0){
-                    var fullUrl = baseUriOrigin + resourcesPath + "/" + iconUrl;
-                    var logoUrlElem = createElementFromHTML("<img src='" + fullUrl + "' style='max-height:50px; margin: auto;' class='horizontal-padding-10'></img>");
-                    logosContainerElem.appendChild(logoUrlElem);
-                }
-            }
-        }*/
-        return;
-    }
 
     function createElementFromHTML(htmlString) {
         var div = document.createElement('div');
         div.innerHTML = htmlString.trim();
         return div.firstChild;
-    }
-
-    // Tato funkce kreslí formulář dle hodnoty redirect_uri
-    function drawFormAndFooterInPlace(){
-        fetch(baseUriOrigin + resourcesPath + "/elements/footer.html")
-            .then((r)=>{r.text().then((d)=>{
-                let element = createElementFromHTML(d);
-                document.getElementsByClassName("login-pf-page")[0].appendChild(element);
-                getConfig();
-            })
-        });
     }
 
     function removeDefaultLogo() {
@@ -272,28 +173,10 @@
                 child.remove();
         }
     }
-    /*
-    function manageForm() {
-        var title = document.getElementById('kc-page-title');
-        var div_form = document.getElementById('kc-form-wrapper');
-        var dic_soc_providers = document.getElementById('kc-social-providers');
-        var button = document.getElementById('formButton');
-        if (div_form.style.display === "none") {
-            div_form.style.display = "block";
-            dic_soc_providers.style.display = "none";
-            title.style.display = "none"
-            button.innerHTML = "Akademický účet"
-        } else {
-            div_form.style.display = "none";
-            dic_soc_providers.style.display =  "block";
-            title.style.display = "block";
-            button.innerHTML = "Email a heslo";
-        }
-    }*/
 
     document.addEventListener("DOMContentLoaded", function(event) {
-        drawFormAndFooterInPlace();
         removeDefaultLogo();
+        console.log("Dom loaded");
     });
 
   </script>

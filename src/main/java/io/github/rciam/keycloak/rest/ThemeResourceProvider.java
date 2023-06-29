@@ -296,11 +296,17 @@ public class ThemeResourceProvider implements RealmResourceProvider {
 
     }
 
+    /**
+     * <b> This function returns additional information about IDP, defined in idps.json</b>
+     *
+     * @param alias The alias of identity provider, which we are looking for in idps.json
+     * @return
+     */
     @GET
     @Path("/identity-provider-logo/{alias}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getIndentityProviderLogo(@PathParam("alias") String alias) throws IOException {
-        Reader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("logo_seznam.json"));
+        Reader reader = new InputStreamReader(getClass().getClassLoader().getResourceAsStream("idps.json"));
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(reader);
         byte[] data = null;
@@ -318,6 +324,33 @@ public class ThemeResourceProvider implements RealmResourceProvider {
                 .header("Content-Disposition","attachment; filename=logo.json")
 //                .header("Content-Length", data.length)
                 .entity(data)
+                .build();
+    }
+
+    /**
+     * <b> This function returns redirect uri of current authentication session </b>
+     *
+     * @param client_id Keycloak client ID
+     * @param tab_id idk, but must be included if we want to access current AuthenticationSessionModel instance
+     * @param session_code same as tab_id
+     * @return Json response with redirect_uri:<value>
+     */
+    @GET
+    @Path("/redirect-uri")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRedirectUri(
+            @QueryParam("client_id") @DefaultValue("") String clientId,
+            @QueryParam("tab_id") @DefaultValue("") String tabId,
+            @QueryParam("session_code") @DefaultValue("") String sessionCode
+    ) {
+        RealmModel realm = session.getContext().getRealm();
+
+        AuthenticationSessionManager authSessionManager = new AuthenticationSessionManager(session);
+        AuthenticationSessionModel authSessionModel = authSessionManager.getCurrentAuthenticationSession(realm, realm.getClientByClientId(clientId), tabId);
+        String redirectUri = authSessionModel.getRedirectUri();
+        String jsonResponse = "{\"redirect_uri\": \""+ redirectUri +"\"}";
+        return Response.ok(jsonResponse)
+                .header("Content-Type", "application/json")
                 .build();
     }
 

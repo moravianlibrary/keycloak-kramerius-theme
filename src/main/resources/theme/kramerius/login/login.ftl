@@ -40,8 +40,46 @@
             $scope.reachedEndPage = false;
             $scope.latestSearch = {};  //for sync purposes
             $scope.isSearching = false;
+            $scope.isKrameriusAdmin = false;
 
-            function setLoginUrl(idp){
+            function handleAngularForm() {
+                $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/theme-config' })
+                    .then(
+                        function(success) {
+                            var adminUrls = success.data['krameriusAdminUrls'];
+                            checkRedirectUri(adminUrls);
+                        }
+                    );
+            }
+
+            function checkRedirectUri(adminUrls) {
+                var params = {
+                        'client_id': $scope.fetchParams['client_id'], 
+                        'tab_id': $scope.fetchParams['tab_id'], 
+                        'session_code': $scope.fetchParams['session_code']
+                }
+                $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/redirect-uri', params : params })
+                    .then(
+                        function(success) {
+                            var redirectUri = success.data['redirect_uri'];
+                            var url = new URL(redirectUri);
+                            var urlHostname = url.hostname;
+                            for (var i = 0; i < adminUrls.length; i++) {
+                                console.log(adminUrls[i] + ' ?= '+ urlHostname)
+                                if (adminUrls[i] == urlHostname) {
+                                    $scope.isKrameriusAdmin = true;
+                                }
+                            }
+                            if(!$scope.isKrameriusAdmin) {
+                                getIdps();
+                            } else {
+                                document.getElementById("kc-page-title").textContent="Kramerius Admin";
+                            }
+                        }
+                    );
+            }
+
+            function setLoginUrl(idp) {
                 idp.loginUrl = baseUriOrigin + idpLoginFullUrl.replace("/_/", "/"+idp.alias+"/");
             }
 
@@ -154,11 +192,10 @@
                         }
                     );
             }
-            
-            getIdps();
+
+            handleAngularForm();
 
             getPromotedIdps();
-
             /*
             $scope.scrollCallback = function ($event, $direct) {
                 if($scope.reachedEndPage==true || $event.target.lastElementChild==null)
@@ -206,9 +243,9 @@
         ${msg("loginAccountTitle")}
     <#elseif section = "form">
     <div id="kc-form">
-
+        <div ng-app="angularLoginPart" ng-controller="idpListing">
         <#-- Keycloak form starts here -->
-        <div id="kc-form-wrapper">
+        <div ng-if="isKrameriusAdmin==true" id="kc-form-wrapper">
             <#if realm.password>
                 <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                     <div class="${properties.kcFormGroupClass!}">
@@ -269,7 +306,7 @@
         <#-- Keycloak form ends here -->
 
         <#-- Keycloak IDP list starts here -->
-        <div ng-app="angularLoginPart" ng-controller="idpListing">
+        
 
         <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-promoted-providers" class="${properties.kcFormSocialAccountSectionClass!}">
             <hr/>
@@ -295,7 +332,7 @@
                 </a>
             </ul>
         </div>
-        <div ng-if="(idps!=null && idps.length>0) || fetchParams.keyword!=null" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
+        <div ng-if="isKrameriusAdmin==false || ((idps!=null && idps.length>0) || fetchParams.keyword!=null)" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
 <#--
             <hr/>
             <h4>${msg("identity-provider-login-label")}</h4>
