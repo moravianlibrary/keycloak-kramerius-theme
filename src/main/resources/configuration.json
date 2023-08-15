@@ -6,5 +6,5 @@
   "supportUrl" : ["mailto:contact@example.com"],
   "htmlFooterText" : ["Copyright &copy; 2023 | Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vitae pellentesque velit. Curabitur sit amet tristique eros, <a href='https://www.lipsum.com/feed/html'>eu accumsan nisi</a>. Pellentesque facilisis a diam pellentesque malesuada. Cras efficitur congue ligula, eu consequat velit cursus non. Suspendisse luctus semper nulla, a lobortis mauris blandit at. Praesent euismod ante a velit pharetra, sed hendrerit neque pellentesque..</a>"],
   "ribbonText": ["Beta verze"],
-  "krameriusAdminUrls": ["k7-admin.k7-local.mzk.cz", "k7-admin.k7-test.mzk.cz", "k7-admin-dev.k7-test.mzk.cz"]
+  "krameriusAdminUrls": ["admin.kramerius.mzk.cz", "k7-admin-dev.k7-test.mzk.cz"]
 }
