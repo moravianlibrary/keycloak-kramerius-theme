@@ -3,11 +3,12 @@ Tohle je repozitář Keycloak motivu pro systém Kramerius7 využívajícího au
 
 ## Jak nainstalovat motiv
 1. V kořeni spustit `mvn clean install –DskipTests`, který vytvoří `target` obsahující `keycloak-kramerius-theme.jar` soubor.
-2. Přesunout `jar` soubor do $KEYCLOAK_BASE/providers, je potřeba restart Keycloaku aby se změna projevila
+2. Přesunout `jar` soubor do $KEYCLOAK_BASE/providers, je potřeba restart Keycloaku aby se změna projevila např. pomocí `kc.sh build`.
 
 ## Jak nastavit motiv
 1. Přihlásit se na admin rozhraní vašeho Keycloaku a přejít na Kramerius realm
-2. V `Clients` v `krameriusClient` nastavte motiv `kramerius`
+2. V `Clients` -> `krameriusClient` nastavte motiv `kramerius`
+3. V `Realm Settings` -> `Themes` -> `Login Theme`=`kramerius`, `Account Theme`=`kramerius`
 
 ## Popis motivu a konfigurace
 Vzhled motivu se zobrazuje hlavně jako wayf se seznamem institucí pro přihlášení.
