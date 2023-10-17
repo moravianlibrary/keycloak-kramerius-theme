@@ -10,6 +10,7 @@ stages:
 
 build-job:
   stage: build
+  when: manual
   script:
     - "mvn --batch-mode --update-snapshots verify"
   artifacts:
