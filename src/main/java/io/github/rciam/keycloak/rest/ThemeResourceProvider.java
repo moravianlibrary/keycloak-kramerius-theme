@@ -317,7 +317,7 @@ public class ThemeResourceProvider implements RealmResourceProvider {
         }
 
         if(data == null)
-            return Response.status(404).entity("Could not find the Identity provider with  ").build();
+            return Response.status(404).entity("Could not find the Identity provider with alias " + alias).build();
 
         return Response.ok()
 //                .header("Content-Type", MediaType.IMAGE_JPEG_VALUE)
