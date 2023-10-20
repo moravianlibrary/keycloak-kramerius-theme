@@ -65,11 +65,6 @@
         "en-name": "The PRIGO University"
     },
     {
-        "alias": "4eaecf706cb80bc9f151f7cdac2100ff136274b5986a815286e81f746f084b45",
-        "logo": "https://cps.ujak.cz/logo/shib.jpg",
-        "en-name": "Jan Amos Komensky University Prague"
-    },
-    {
         "alias": "2967c19f8bbe7741f0bcd1f9b70a13f17846465b0aec98c2cd35687dc7bae16c",
         "logo": "https://eduid.vsers.cz/idp/images/vsers.png",
         "en-name": "The College of European and Regional Studies"
@@ -78,6 +73,11 @@
         "alias": "914e7672c1bf6ae86308a045b4ece695c28cd10f2e2d8e9935df97709bc7831c",
         "logo": "https://eduid.vspj.cz/idp/images/logo.png",
         "en-name": "College of Polytechnics Jihlava"
+    },
+    {
+        "alias": "aac72f222c898c0a62a8ab8a19a00cc7fa08d8ef4691662edb9915adef5774ab",
+        "logo": "https://journals.vstecb.cz/wp-content/themes/journals/images/logo.jpg",
+        "en-name": "Institute of Technology and Business in \u010cesk\u00e9 Bud\u011bjovice"
     },
     {
         "alias": "002db8b2ff770cc62f5e404d7ea82696ce02bfd124a1bd5bd9700ab4421b2f2f",
@@ -180,11 +180,6 @@
         "en-name": "Institute of Chemical Process Fundamentals of the AS CR"
     },
     {
-        "alias": "9a4a3651953014e8ca85dec7809fa8061dcebf831cf8205d9e65c0a13c41a855",
-        "logo": "https://gedeon.cas.cz/loga/logo-gfu-44.png",
-        "en-name": "Institute of Geophysics of the CAS, v.v.i."
-    },
-    {
         "alias": "9f81a5e1570511b92b1f5d38b2d02e91ed2b729196b76a15694d5984c7606474",
         "logo": "https://gedeon.cas.cz/loga/logo-iic-44.png",
         "en-name": "Institute of Inorganic chemistry of the Czech Academy of Sciences"
@@ -211,7 +206,7 @@
     },
     {
         "alias": "9e2ad5153831e16366e57086f77262543b5cf86942c72a378bb31498bf004d1c",
-        "logo": "https://knihovna-uo.cz/logo.png",
+        "logo": "https://uo.idp.rbit.cz/logo.png",
         "en-name": "Municipal Library \u00dast\u00ed nad Orlic\u00ed"
     },
     {
@@ -251,8 +246,8 @@
     },
     {
         "alias": "91088772aeb592e6663b470def5ef14d90942b057c13251acd81f5558b3cc27f",
-        "logo": "https://www.rkka.cz/wp-content/uploads/2019/01/cropped-Logo_bez_textu.png",
-        "en-name": "Regional Library Karvina"
+        "logo": "https://karvina.idp.rbit.cz/logo.png",
+        "en-name": "Region\u00e1ln\u00ed knihovna Karvin\u00e1"
     },
     {
         "alias": "7add8971bd87081eec38cd5de32bb24f3ec79494a227c8a2b377be28e97157c7",
@@ -480,6 +475,11 @@
         "en-name": "Municipal library Vysoke Myto"
     },
     {
+        "alias": "dd947901af974c3e142b4e9a81d3cc77c7602f0e18a42b91c3b3d8f2b1859171",
+        "logo": "https://vratimov.idp.rbit.cz/logo.png",
+        "en-name": "Municipal Library Vratimov"
+    },
+    {
         "alias": "4762117df992b4d97cedd94d95340cb7babe2cbc650b4f1a5064278adcdc8275",
         "logo": "https://knep.knihovny.cz/logo.png",
         "en-name": "Eduard Petiska Library"
@@ -488,6 +488,11 @@
         "alias": "726f2c2148cffa8f4e7af5c1de2974c7fe97b2e947666a1d575c5af5992596a5",
         "logo": "https://mkhol.knihovny.cz/logo.png",
         "en-name": "Municipal Library Hole\u0161ov"
+    },
+    {
+        "alias": "bbdf4c0f279a7198abd33feb24d92674dc90619df5629312d9e8e7642ee040a0",
+        "logo": "https://mkklimkovice.knihovny.cz/logo.png",
+        "en-name": "Municipal Library Klimkovice"
     },
     {
         "alias": "4b244885016103fa8f23ee54e0a1de77fdaa91af23096a81bdb09188e695ef9c",
@@ -518,6 +523,11 @@
         "alias": "bd3ed93065c472eec5936078f16712f30869ac39ecbc4440aa7740e6b032c325",
         "logo": "https://chocen.idp.rbit.cz/logo.png",
         "en-name": "Municipal Library Choce\u0148"
+    },
+    {
+        "alias": "0314cd99ac6ca24fcc3f90f746622b0148fd8c0987b236ecb5e61863da0a2ebb",
+        "logo": "https://frenstat.idp.rbit.cz/logo.png",
+        "en-name": "Municipal Library Fren\u0161t\u00e1t pod Radho\u0161t\u011bm"
     },
     {
         "alias": "721b06ae9d873105fa7c89eebf74e106bd30abf9289d836e9d88c6f199c21635",
@@ -553,6 +563,11 @@
         "alias": "f29cd951920976bccfad40faefbfd6261c17c6d5664ff95a021ab9c1a15aef90",
         "logo": "https://mkml.knihovny.cz/logo.png",
         "en-name": "Municipal Library Marianske Lazne"
+    },
+    {
+        "alias": "dca42be92f842ccf8a70353afcc83a30f528f584094bd806bb6b1dd889b58af8",
+        "logo": "https://neratovice.idp.rbit.cz/logo.png",
+        "en-name": "Municipal Library Neratovice"
     },
     {
         "alias": "4279807f9f0867fe969b24bb42146fce916f70bc3e74a0412b9745d418b1bed2",
@@ -630,6 +645,11 @@
         "en-name": "Municipal library with regional services in Trutnov"
     },
     {
+        "alias": "7d8fac9ac87cb0a7d901202bf924674398d1168f86d18873b9a609b4c8e2e56d",
+        "logo": "https://nipos.idp.rbit.cz/logo.png",
+        "en-name": "National Information and Consulting Centre for Culture"
+    },
+    {
         "alias": "c68ac7d14c2175b6f5a993d05f05f38dc201d6b8655eb1d61fcb7809de0d32f1",
         "logo": "https://www.medvik.cz/images/medvik-logo.png",
         "en-name": "National Medical Library, Prague - Medvik"
@@ -703,5 +723,10 @@
         "alias": "8d1afec10de064fadc2b43ed123361965d7a3b06f69eca3e727f60e75833b5a5",
         "logo": "https://www.vutbr.cz/logo_idp.png",
         "en-name": "Brno University of Technology"
+    },
+    {
+        "alias": "c2202fe000b1cdb32e0730d43ac0040508a52920e16091032171726145e72aff",
+        "logo": "https://ndk.cz/img/idndk_35x160.png",
+        "en-name": "Identities NDK"
     }
 ]
