@@ -2,7 +2,7 @@
 Tohle je repozitář Keycloak motivu pro systém Kramerius7 využívajícího autentizačního systému Keycloak, konkrétně fork od EOSC. Zdrojové kódy jsou převzaté z Github repozitáře https://github.com/rciam/keycloak-theme-vanilla, která je pod licencí Apache 2.0. Finální modifikovaný kód pro Krameria tedy není čistý ani optimalizovaný, ale pro potřeby Krameria zatím stačí. Pro případné dotazy kontaktujte kolegy z MZK.
 
 ## Jak nainstalovat motiv
-1. V kořeni spustit `mvn clean install –DskipTests`, který vytvoří `target` obsahující `keycloak-kramerius-theme.jar` soubor.
+1. V kořeni spustit `mvn clean install`, který vytvoří `target` obsahující `keycloak-kramerius-theme.jar` soubor.
 2. Přesunout `jar` soubor do $KEYCLOAK_BASE/providers, je potřeba restart Keycloaku aby se změna projevila např. pomocí `kc.sh build`.
 
 ## Jak nastavit motiv
