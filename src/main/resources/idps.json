@@ -150,6 +150,11 @@
         "en-name": "Institute of Philosophy AS CR"
     },
     {
+        "alias": "e9bf43f366d28236dbafc0810ce7137826b5d3b04b129c5be910fb20df5af066",
+        "logo": "https://gedeon.cas.cz/loga/logo-fzu-40.png",
+        "en-name": "Institute of Physics AS CR"
+    },
+    {
         "alias": "b3573b4ea83a8a440c074aec8faf8ea49790b8ccd3d59597eb23b047817dc93b",
         "logo": "https://idpmain.icpf.cas.cz/loga/logo-gli-44.png",
         "en-name": "Institute of Geology AS CR"
@@ -251,8 +256,8 @@
     },
     {
         "alias": "7add8971bd87081eec38cd5de32bb24f3ec79494a227c8a2b377be28e97157c7",
-        "logo": "https://idp.savs.cz/idp/images/idp.savs.cz.jpg",
-        "en-name": "\u0160KODA AUTO University"
+        "logo": "https://idp.savs.cz/idp/images/idp.savs.cz.png",
+        "en-name": "\u0160koda Auto University"
     },
     {
         "alias": "6f79d0f606dfd6267d71536837e16eee9a7aeb0ceeb052612d9fdc6ad908134f",
@@ -267,7 +272,7 @@
     {
         "alias": "4567d28f50d030041ca4d5670ea5b04399d88f20a21d08b0eb0ae85659d4a740",
         "logo": "https://idp.svkpk.cz/idp/images/logo_40.png",
-        "en-name": "The Education and Research Library of the Pilsener Region"
+        "en-name": "Education and Research Library of Pilsen Region"
     },
     {
         "alias": "a5cf97912a12aeb85eb87134f0e7a6e83aa6442ebf1d18408ec59a395c0ebd7d",
@@ -338,6 +343,11 @@
         "alias": "cf965578e52e6a0137f03e21459e303686bad07d87154408006bca6e88843e51",
         "logo": "https://idp.vsb.cz/idp/images/vsb-logo-40.svg",
         "en-name": "VSB - TU Ostrava"
+    },
+    {
+        "alias": "21fb435caecc86fa43e393cbdca9ea803be76b04a986b73a1ae5055a3395ff0c",
+        "logo": "https://idp.vsfs.cz/idp/images/idp.vsfs.cz.png",
+        "en-name": "University of Finance and Administration"
     },
     {
         "alias": "a7f5cba60334776c7468a656b119acea5184f184a60b1972e6acfbb9ba346937",
@@ -450,6 +460,11 @@
         "en-name": "Municipal Library Jind\u0159ich\u016fv Hradec"
     },
     {
+        "alias": "c4048d65c5bdb7f1fd45126f08a65e3f71d7ca6dbbf1e124a43b3fa9ea50af55",
+        "logo": "https://knihkm.knihovny.cz/logo.png",
+        "en-name": "Kromeriz Public Library"
+    },
+    {
         "alias": "0ac5790da644b02002f71f90a66953f8860b42122c4507bbe6b6907173377337",
         "logo": "https://mkcl.knihovny.cz/logo.png",
         "en-name": "Municipal Library \u010cesk\u00e1 L\u00edpa"
@@ -463,6 +478,11 @@
         "alias": "b1359f4df2e5966e21e191eb99fdab3db07a7940dc7bb8e566eca8f9ec7a7aca",
         "logo": "https://mkkh.knihovny.cz/logo.png",
         "en-name": "Municipal Library Kutn\u00e1 Hora"
+    },
+    {
+        "alias": "87d00183ad2ef3a85fa5871261676fa941d97a13a36799cde1042a363fac3a94",
+        "logo": "https://litvinov.idp.rbit.cz/logo.png",
+        "en-name": "Municipal Library in Litvinov"
     },
     {
         "alias": "1d1f2f1a7e12330f0166eba80ab8c0d8f0481e064b92a4f2950ca51090d4a589",
@@ -508,6 +528,11 @@
         "alias": "edc8e663d6c407e0ffe003516348af84b16cd450e1102b5f03c60d815fb4e59d",
         "logo": "https://mkricany.knihovny.cz/logo.png",
         "en-name": "Huss' Library Ricany"
+    },
+    {
+        "alias": "2961c422802e755472a1ab4c9a6b85c424df1edaf9074ac3a4d78fc25d53a002",
+        "logo": "https://kbbb.knihovny.cz/logo.png",
+        "en-name": "Knihovna Bed\u0159icha Bene\u0161e Buchlovana Uhersk\u00e9 Hradi\u0161t\u011b"
     },
     {
         "alias": "aa118357e9cbe576dc644227fdc5aa536f80e9ad1a6f65e0184864d5396c05d9",
@@ -575,9 +600,19 @@
         "en-name": "Municipal Library P\u0159erov"
     },
     {
+        "alias": "3587b3c7f8f86e9eab52ab437ad161d945eb95a37d69326ff6ec030fe01ed348",
+        "logo": "https://katalogspk.cz/auth/saml2-idp/organization-logo",
+        "en-name": "Municipal library T.G. Masaryk Sumperk"
+    },
+    {
         "alias": "4f5a72ec1ac08a6b6d0339d079b2d8559c66879e8807e1abe6e660b00e9a9df4",
         "logo": "https://mkta.idp.rbit.cz/logo.png",
         "en-name": "Municipal Library T\u00e1bor"
+    },
+    {
+        "alias": "22863abe4bc59d2797232b008dbf86ba2629b3f14bf38fa259429c5b7f23207f",
+        "logo": "https://mktnv.knihovny.cz/logo.png",
+        "en-name": "Municipal Library in T\u00fdn nad Vltavou"
     },
     {
         "alias": "c049ad194ae3825072ed450bb31ce8bdcc6eb1bce827dbdc9cfc7548e71fba1c",
@@ -625,6 +660,11 @@
         "en-name": "Arts and Theatre Institute"
     },
     {
+        "alias": "d1e84c19d393ae389cfb022bef12028ac5799192a6f6c55f29da71dd780cf968",
+        "logo": "https://milevsko-katalog.koha-system.cz/vufind/themes/ereading/images/milevsko.png",
+        "en-name": "Municipal library in Milevsko"
+    },
+    {
         "alias": "0b59f6b09baeb8edfbce15185cf1781271a4417be23ab68972947c1ea84466cd",
         "logo": "https://mkkl.knihovny.cz/logo.png",
         "en-name": "Municipal Library in Kladno"
@@ -653,6 +693,11 @@
         "alias": "c68ac7d14c2175b6f5a993d05f05f38dc201d6b8655eb1d61fcb7809de0d32f1",
         "logo": "https://www.medvik.cz/images/medvik-logo.png",
         "en-name": "National Medical Library, Prague - Medvik"
+    },
+    {
+        "alias": "f31413a01f621a451dd3499fc739e8ec8b3391136975bc9b6b576306d2b91ed6",
+        "logo": "https://shib.psp.cz/logo-parlamentni-knihovna.png",
+        "en-name": "Parliamentary Library of the Czech Republic"
     },
     {
         "alias": "8288cdfe35475d4c217475e74fe71d8a2862efa756eda4fbb775fcb981d24476",
