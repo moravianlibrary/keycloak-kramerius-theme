@@ -14,11 +14,11 @@
     "ribbonText": ["Beta verze"],
     "krameriusAdminUrls": [
         "admin.kramerius.mzk.cz",
-        "k7-admin-dev.k7-test.mzk.cz",
+        "dev-admin.k7.mzk.cz",
         "import-admin.k7.mzk.cz",
         "altoeditor-test.osdd.mzk.cz",
         "altoeditor.osdd.mzk.cz",
-        "ndk-test-admin.k7-test.mzk.cz",
-        "ndk-admin.k7-test.mzk.cz"
+        "ndk-test-admin.k7.mzk.cz",
+        "ndk-admin.k7.mzk.cz"
     ]
 }
