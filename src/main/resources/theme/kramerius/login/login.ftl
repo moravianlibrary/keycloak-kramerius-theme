@@ -1,7 +1,6 @@
 <#import "template.ftl" as layout>
 
-<#-- <script src="${url.resourcesCommonPath}/node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>  -->
-    <script src="${url.resourcesCommonPath}/node_modules/angular/angular.min.js"></script>
+		<script src="${url.resourcesPath}/js/angular.min.js"></script> 
 
 
     <script>
@@ -53,23 +52,27 @@
 				if (currentUrl.indexOf('#') == -1) {
 					showAll = true;
 				}
-
+						
+						
 				var retval =  !(showAll || showIdp);
 				return retval;
+				
 			};
 
 			$scope.isFormPartHidden = function() {
 				var currentUrl = $location.url();
 				var showAll = currentUrl.endsWith('#all');
 				var showForm =  currentUrl.endsWith('#form');
-
+	
 				if (currentUrl.indexOf('#') == -1) {
 					showAll = true;
 				}
-
+						
 				var retval = !(showAll || showForm)
 				return retval;
+				
 			};
+
 
 			getIdps();
 
