@@ -28,12 +28,13 @@
             };
         }]);
 
-		angularLoginPart.controller("idpListing", function($scope, $http) {
 
+
+		angularLoginPart.controller("idpListing", function($scope, $http, $location) {
 
             var sessionParams = new URL(baseUriOrigin+idpLoginFullUrl).searchParams;
 
-            $scope.fetchParams = { 'keyword': null, 'first' : null, 'max': null, 'client_id': sessionParams.get('client_id'), 'tab_id': sessionParams.get('tab_id'), 'session_code': sessionParams.get('session_code')};
+            $scope.fetchParams = { 'keyword': '', 'first' : null, 'max': null, 'client_id': sessionParams.get('client_id'), 'tab_id': sessionParams.get('tab_id'), 'session_code': sessionParams.get('session_code')};
             $scope.idps = [];
             $scope.hiddenIdps = 0;
             $scope.totalIdpsAskedFor = 0;
@@ -41,6 +42,36 @@
             $scope.latestSearch = {};  //for sync purposes
             $scope.isSearching = false;
             $scope.isKrameriusAdmin = false;
+
+
+			$scope.isIdpPartHidden = function() {
+				var currentUrl = $location.url();
+
+				var showAll = currentUrl.endsWith('#all');
+				var showIdp = currentUrl.endsWith('#idp');
+
+				if (currentUrl.indexOf('#') == -1) {
+					showAll = true;
+				}
+
+				var retval =  !(showAll || showIdp);
+				return retval;
+			};
+
+			$scope.isFormPartHidden = function() {
+				var currentUrl = $location.url();
+				var showAll = currentUrl.endsWith('#all');
+				var showForm =  currentUrl.endsWith('#form');
+
+				if (currentUrl.indexOf('#') == -1) {
+					showAll = true;
+				}
+
+				var retval = !(showAll || showForm)
+				return retval;
+			};
+
+			getIdps();
 
             function handleAngularForm() {
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/theme-config' })
@@ -70,18 +101,20 @@
                                     $scope.isKrameriusAdmin = true;
                                 }
                             }
-                            if(!$scope.isKrameriusAdmin) {
-                                getIdps();
+                            /*
+							if(!$scope.isKrameriusAdmin) {
                             } else {
                                 document.getElementById("kc-page-title").textContent="Kramerius Admin";
-                            }
+                            }*/
                         }
                     );
             }
 
             function setLoginUrl(idp) {
-                idp.loginUrl = baseUriOrigin + idpLoginFullUrl.replace("/_/", "/"+idp.alias+"/");
+                var fragment = $scope.isKrameriusAdmin ? "#all" : "#idp";
+                idp.loginUrl = baseUriOrigin + idpLoginFullUrl.replace("/_/", "/" + idp.alias + "/") + fragment;
             }
+
 
             // Function also sets English name
             function setLogo(idp) {
@@ -116,6 +149,8 @@
             function getIdps() {
                 var submissionTimestamp = new Date().getTime(); //to let the current values be accessible within the callbacks
                 var searchParams = $scope.fetchParams; //to let the current values be accessible within the callbacks
+				console.log("getIDPS, searchParams:"+searchParams);
+				
                 $scope.latestSearch = { submissionTimestamp: submissionTimestamp, searchParams: searchParams };
                 $scope.isSearching = true;
                 $http({method: 'GET', url: baseUri + '/realms/' + realm + '/theme-info/identity-providers', params : $scope.fetchParams })
@@ -245,7 +280,7 @@
     <div id="kc-form">
         <div ng-app="angularLoginPart" ng-controller="idpListing">
         <#-- Keycloak form starts here -->
-        <div ng-if="isKrameriusAdmin==true" id="kc-form-wrapper">
+        <div id="kc-form-wrapper" ng-hide="isFormPartHidden()">
             <#if realm.password>
                 <form id="kc-form-login" onsubmit="login.disabled = true; return true;" action="${url.loginAction}" method="post">
                     <div class="${properties.kcFormGroupClass!}">
@@ -308,7 +343,7 @@
         <#-- Keycloak IDP list starts here -->
         
 
-        <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-promoted-providers" class="${properties.kcFormSocialAccountSectionClass!}">
+        <div ng-if="promotedIdps!=null && promotedIdps.length>0" id="kc-social-promoted-providers" class="${properties.kcFormSocialAccountSectionClass!}" ng-hide="isIdpPartHidden()">
             <hr/>
             <ul class="${properties.kcFormSocialAccountListClass!} ">
                 <a ng-repeat="idp in promotedIdps" id="social-{{idp.alias}}" class="${properties.kcFormSocialAccountListButtonClass!}" ng-class="{ '${properties.kcFormSocialAccountGridItem!}' : promotedIdps.length > 3 }" type="button" href="{{idp.loginUrl}}" ng-click="saveIdp($event)">
@@ -332,7 +367,7 @@
                 </a>
             </ul>
         </div>
-        <div ng-if="isKrameriusAdmin==false || ((idps!=null && idps.length>0) || fetchParams.keyword!=null)" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}">
+        <div ng-if="((idps!=null && idps.length>0) || fetchParams.keyword!=null)" id="kc-social-providers" class="${properties.kcFormSocialAccountSectionClass!}" ng-hide="isIdpPartHidden()">
 <#--
             <hr/>
             <h4>${msg("identity-provider-login-label")}</h4>
